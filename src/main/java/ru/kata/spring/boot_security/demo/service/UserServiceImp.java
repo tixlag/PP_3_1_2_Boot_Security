@@ -2,8 +2,6 @@ package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,18 +74,6 @@ public class UserServiceImp implements UserService {
     @Override
     public void delete(Long id) {
         userDao.delete(id);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userDao.getByUsername(username);
-
-        if (user.isEmpty()) {
-            throw new UsernameNotFoundException("Пользователь не существует.");
-        }
-        // Обман ленивой загрузки
-        System.out.println(user.get().getRoles().size());
-        return user.get();
     }
 
     @Override
